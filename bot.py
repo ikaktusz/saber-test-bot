@@ -1,6 +1,5 @@
 import os
 import logging
-import hashlib
 
 from aiogram import Bot, Dispatcher, executor, types
 
