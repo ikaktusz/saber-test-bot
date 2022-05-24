@@ -1,9 +1,17 @@
+from ast import Num
 import os
+import re
 import logging
 
 from aiogram import Bot, Dispatcher, executor, types
 
 import db
+from exceptions import (
+    OperandsException,
+    LettersInStringException,
+    NumLengthException
+)
+
 
 API_TOKEN = os.getenv("TOKEN")
 BOT_PASSWORD = os.getenv("BOT_PASSWORD")
@@ -62,16 +70,31 @@ async def info(message: types.Message):
 async def calculate(message: types.Message):
     if message:
         try:
-            result = eval(message.text)
+            nums = re.split("[-|+|/|*|(|)]", message.text)
+            nums = list(filter(('').__ne__, nums)) # Delete all empty elements.
+
+            if any([x.isalpha() for x in message.text]): # If where is any letter in string.
+                raise LettersInStringException("You can't use letters.")
+            elif len(nums) > 10:
+                raise OperandsException("Too many operands(>10)")
+            elif any(len(x) > 13 for x in nums):
+                raise NumLengthException("Numbers cannot be longer than 13 characters.")
+            
+            result = eval(message.text.replace(',', '.'))
+
         except ZeroDivisionError:
-            return await message.answer("Division by 0")
-        except (SyntaxError, TypeError, NameError):
-            return await message.answer("Error")
+            return await message.answer("Error: Division by 0")
+
+        except (LettersInStringException, OperandsException, NumLengthException) as err:
+            return await message.answer("Error: " + str(err))
+
+        except (SyntaxError, TypeError, NameError) as err:
+            return await message.answer("Error: Something went wrong:)")
 
         if result == int(result):
             await message.answer(str(int(result)))
         else:
-            await message.answer(str(result))
+            await message.answer(f"{result:.4f}")
 
 
 if __name__ == '__main__':
