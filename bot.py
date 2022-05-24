@@ -1,12 +1,13 @@
 import os
 import logging
+import hashlib
 
 from aiogram import Bot, Dispatcher, executor, types
 
 import db
 
 API_TOKEN = os.getenv("TOKEN")
-PASSWORD = os.getenv("BOT_PASSWORD")
+BOT_PASSWORD = os.getenv("BOT_PASSWORD")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -17,7 +18,7 @@ dp = Dispatcher(bot)
 def auth_required(func):
     async def wrapper(message):
         if not db.user_exists(message.from_user.id):
-            if message.text == PASSWORD:
+            if message.text == BOT_PASSWORD:
                 db.login(message.from_user.id)
                 await message.answer("Login succsessful!")
                 await message.answer("Now you can use this bot!")
