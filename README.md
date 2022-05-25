@@ -21,7 +21,7 @@
 ## Установка
 Используя Docker:  
 `docker run -d \`  
-`--name=saber-test-bot \ \`  
+`--name=saber-test-bot \`  
 `-e TOKEN=YOUR_TELEGRAM_TOKEN \`  
 `-e BOT_PASSWORD=YOUR_PASSWORD \`  
 `--restart unless-stopped \`  
