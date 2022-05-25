@@ -19,8 +19,16 @@
 `/logout`  
 
 ## Установка
+Используя Docker:  
+`docker run -d \`  
+`--name=saber-test-bot \ \`  
+`-e TOKEN=YOUR_TELEGRAM_TOKEN \`  
+`-e BOT_PASSWORD=YOUR_PASSWORD \`  
+`--restart unless-stopped \`  
+`kostikk/saber-test-bot`  
 
-`https://github.com/ikaktusz/saber-test-bot.git`  
+Или вручную:  
+`git clone https://github.com/ikaktusz/saber-test-bot.git`  
 `cd saber-test-bot`  
 `pip install -r requirements.txt`  
 В Linux:  

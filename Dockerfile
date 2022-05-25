@@ -2,8 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-ENV TOKEN=
-ENV BOT_PASSWORD=
+#ENV TOKEN=
+#ENV BOT_PASSWORD=
 
 COPY ./requirements.txt .
 RUN pip3 install -r requirements.txt --no-cache-dir
